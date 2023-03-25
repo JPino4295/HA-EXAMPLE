@@ -1,0 +1,29 @@
+exampleAggregatePutController:
+  handler: src/controllers/example-aggregate/create/exampleAggregatePutController.create
+  iamRoleStatementsInherit: true
+  iamRoleStatements:
+    -
+      Effect: Allow
+      Action:
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: !GetAtt Database.Arn
+    -
+      Effect: Allow
+      Action:
+        - events:PutEvents
+      Resource: !GetAtt DomainEventBus.Arn
+  events:
+    - http:
+        method: put
+        path: example-aggregates/{id}
+        cors: true
+        request:
+          parameters:
+            paths:
+              id: true
+          schemas:
+            application/json: ${file(../../../../docs/example-context/example-aggregate/example-aggregate-put-body.yml):ExampleAggregatePutBody}
+  tags:
+    ServiceName: ${env:SERVICE_NAME}
+    Env: ${self:provider.stage}

@@ -1,0 +1,51 @@
+version: 0.2
+
+env:
+  git-credential-helper: yes
+  secrets-manager:
+    dockerhub_username: $SECRET_ID:username
+    dockerhub_password: $SECRET_ID:password
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14.x
+    commands:
+      - CODEBUILD_GIT_BRANCH="$(git rev-parse HEAD | xargs git name-rev | cut -d' ' -f2 | sed 's/remotes\/origin\///g')";
+      - git checkout $CODEBUILD_GIT_BRANCH
+      - git config --global user.email "no-reply@example.com"
+      - git config --global user.name "CI/CD user"
+      - apt-get install jq
+      - wget https://github.com/mikefarah/yq/releases/download/v4.23.1/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+      - pip3 install docker-compose
+      - npm install --silent --progress=false -g npm
+      - npm install --silent --progress=false -g yarn
+      # https://aws.amazon.com/es/premiumsupport/knowledge-center/codebuild-docker-pull-image-error/
+      - docker login -u $dockerhub_username -p $dockerhub_password
+
+  # This is required so AwsSignedConnection can read AWS credentials properly. It seems there is an issue otherwise.
+  pre_build:
+    commands:
+      - export TEMP_ROLE=`curl http://169.254.170.2$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI`
+      - export AWS_ACCESS_KEY_ID=$(echo "${TEMP_ROLE}" | jq -r '.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo "${TEMP_ROLE}" | jq -r '.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo "${TEMP_ROLE}" | jq -r '.Token')
+
+  build:
+    commands:
+      - make test
+      - make deploy env=cicd
+      - yarn test:features:aws cicd
+      - yarn publish:version
+      - make deploy env=pro
+      - yarn publish:docs:aws pro
+
+  post_build:
+    commands:
+      # - yarn destroy:aws cicd
+      - make clean
+
+cache:
+  paths:
+    - node_modules/**/*
+    - '**/node_modules/**/*'
