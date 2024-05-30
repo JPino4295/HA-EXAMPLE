@@ -9,6 +9,8 @@ export default class PersonCreator {
         this.repository = repository;
     }
 
+    // Use cases that uses commands usually return void, but there are some cases when a response can be returned
+    // For example: Create a person and return the database record's Id
     async run(command: CreatePersonCommand): Promise<void> {
         await this.repository.save(
             new Person({

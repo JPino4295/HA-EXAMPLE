@@ -9,6 +9,8 @@ export type CreatePersonCommandParams = {
     city: string;
 }
 
+// Queries and commands always have properties that are primitives.
+// This is because the commands and the queries are wrappers for the information the application needs to receive
 export default class CreatePersonCommand extends Command {
     readonly name: string;
 
