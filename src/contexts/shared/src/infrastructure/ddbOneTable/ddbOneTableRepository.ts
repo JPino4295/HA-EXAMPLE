@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import AggregateRoot from '@src/shared/domain/aggregateRoot';
-import { Nullable } from '@src/shared/domain/nullable';
-import DdbOneTableConfig from '@src/shared/infrastructure/persistence/ddbOneTable/ddbOneTableConfig';
+import AggregateRoot from '@src/domain/aggregateRoot';
+import { Nullable } from '@src/domain/nullable';
+import DdbOneTableConfig from '@src/infrastructure/persistence/ddbOneTable/ddbOneTableConfig';
 import { Table, Model, OneModel } from 'dynamodb-onetable';
 
 export default abstract class DdbOneTableRepository<T extends AggregateRoot> {

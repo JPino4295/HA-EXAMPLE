@@ -5,10 +5,10 @@ const model = {
     sk: { type: String, value: 'Person' },
     name: { type: String, required: true },
     surname: { type: String, required: true },
-    age: { type: Number, required: true },
+    age: { type: Number, required: false },
     street: { type: String, required: false },
-    country: { type: String, required: true },
-    city: { type: String, required: true }
+    country: { type: String, required: false },
+    city: { type: String, required: false }
 } as OneModel;
 
 export default model;

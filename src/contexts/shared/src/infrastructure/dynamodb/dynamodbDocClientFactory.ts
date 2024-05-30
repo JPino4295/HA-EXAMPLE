@@ -1,5 +1,5 @@
-import { Nullable } from '@src/shared/domain/nullable';
-import DynamodbConfig from '@src/shared/infrastructure/persistence/dynamodb/dynamodbConfig';
+import { Nullable } from '@src/domain/nullable';
+import DynamodbConfig from '@src/infrastructure/persistence/dynamodb/dynamodbConfig';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { captureAWSClient } from 'aws-xray-sdk';
 

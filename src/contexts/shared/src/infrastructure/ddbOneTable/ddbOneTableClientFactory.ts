@@ -1,5 +1,5 @@
-import { Nullable } from '@src/shared/domain/nullable';
-import DdbOneTableConfig from '@src/shared/infrastructure/persistence/ddbOneTable/ddbOneTableConfig';
+import { Nullable } from '@src/domain/nullable';
+import DdbOneTableConfig from '@src/infrastructure/persistence/ddbOneTable/ddbOneTableConfig';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { Table, OneModel } from 'dynamodb-onetable';
 import fglob from 'fast-glob';

@@ -1,4 +1,4 @@
-import EnvironmentArranger from '@src/shared/infrastructure/arranger/environmentArranger';
+import EnvironmentArranger from '@src/infrastructure/arranger/environmentArranger';
 import { Table } from 'dynamodb-onetable';
 import { chunk } from 'lodash';
 
@@ -57,6 +57,6 @@ export default class DdbOneTableEnvironmentArranger extends EnvironmentArranger 
         );
     }
 
-    // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-empty-function
+    // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-empty-function, no-empty-function
     async close(): Promise<void> {}
 }

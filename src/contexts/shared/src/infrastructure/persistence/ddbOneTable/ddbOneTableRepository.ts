@@ -1,4 +1,5 @@
 import AggregateRoot from '@src/domain/aggregateRoot';
+import { Nullable } from '@src/domain/nullable';
 import { Table, Model, OneModel } from 'dynamodb-onetable';
 
 export default abstract class DdbOneTableRepository<T extends AggregateRoot> {
@@ -44,5 +45,15 @@ export default abstract class DdbOneTableRepository<T extends AggregateRoot> {
         }
 
         await model.create(primitives, opts);
+    }
+
+    protected async getItem(
+        primaryKey: Record<string, string>,
+        options: { index?: string },
+        Ctor: new (primitives: any) => T
+    ): Promise<Nullable<T>> {
+        const primitives = await (await this.getModel()).get(primaryKey, options);
+
+        return primitives ? new Ctor(primitives) : null;
     }
 }

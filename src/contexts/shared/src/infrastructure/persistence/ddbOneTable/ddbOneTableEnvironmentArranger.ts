@@ -44,7 +44,7 @@ export default class DdbOneTableEnvironmentArranger extends EnvironmentArranger 
 
     private async deleteItems(items: any[]): Promise<void> {
         await Promise.all(
-            chunk(items, DdbOneTableEnvironmentArranger.MAX_BATCH_WRITE_ITEMS).map(async (list) => {
+            chunk(items, DdbOneTableEnvironmentArranger.MAX_BATCH_WRITE_ITEMS).map(async (list: any) => {
                 const batch = {};
 
                 for (const item of list) {
@@ -57,6 +57,6 @@ export default class DdbOneTableEnvironmentArranger extends EnvironmentArranger 
         );
     }
 
-    // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-empty-function
+    // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-empty-function, no-empty-function
     async close(): Promise<void> {}
 }

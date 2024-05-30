@@ -3,6 +3,7 @@ import PersonModel from '@src/infrastructure/persistence/ddbOneTable/person.mode
 import Person from '@src/domain/person';
 import PersonRepository from '@src/domain/personRepository';
 import { OneModel } from 'dynamodb-onetable';
+import { Nullable } from '@context/shared/domain/nullable';
 
 export default class DdbOneTablePersonRepository extends DdbOneTableRepository<Person> implements PersonRepository {
     // eslint-disable-next-line class-methods-use-this
@@ -17,5 +18,12 @@ export default class DdbOneTablePersonRepository extends DdbOneTableRepository<P
 
     async save(person: Person): Promise<void> {
         return this.persist(person, { exists: null });
+    }
+
+    async find(person: Person): Promise<Nullable<Person>> {
+        return this.getItem({
+            pk: person.name.value,
+            sk: person.surname.value
+        }, {}, Person);
     }
 }

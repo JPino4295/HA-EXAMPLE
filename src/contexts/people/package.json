@@ -21,7 +21,7 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./": "./dist/"
+    "./*": "./dist/*.js"
   },
   "scripts": {
     "precommit": "npx lint-staged",

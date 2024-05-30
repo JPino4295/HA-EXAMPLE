@@ -1,5 +1,0 @@
-Resources:
-  DomainEventBus:
-    Type: AWS::Events::EventBus
-    Properties:
-      Name: ${env:SERVICE_NAME}-${self:provider.stage}-events

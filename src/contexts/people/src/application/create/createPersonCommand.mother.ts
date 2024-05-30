@@ -29,8 +29,8 @@ export default class CreatePersonCommandMother {
         return CreatePersonCommandMother.create({
             name: person.name.value,
             surname: person.surname.value,
-            age: person.age.value,
-            ...person.address.toPrimitives()
+            age: person.age!.value,
+            ...person.address!.toPrimitives()
         });
     }
 }
